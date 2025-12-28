@@ -1,0 +1,800 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>اپلیکیشن Vira</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <style>
+        /* Custom Scrollbar Hide */
+        .scrollbar-hide::-webkit-scrollbar {
+            display: none;
+        }
+        .scrollbar-hide {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        
+        /* Animation Classes */
+        .fade-in {
+            animation: fadeIn 0.3s ease-in-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Font Setup - using system fonts fallback to sans-serif */
+        body {
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 min-h-screen flex items-center justify-center font-sans text-gray-800">
+
+    <!-- Mobile Frame Container -->
+    <div class="w-full max-w-md bg-white h-[800px] max-h-[90vh] rounded-[40px] shadow-2xl overflow-hidden flex flex-col relative border-8 border-gray-900 ring-4 ring-gray-200">
+        
+        <!-- Status Bar -->
+        <div class="h-8 bg-white w-full flex justify-between items-center px-6 pt-2 select-none z-20 shrink-0">
+           <span class="text-[10px] font-bold text-gray-800">۹:۴۱</span>
+           <div class="flex gap-1.5">
+               <div class="w-4 h-4 rounded-full bg-black/10"></div>
+               <div class="w-4 h-4 rounded-full bg-black/10"></div>
+           </div>
+        </div>
+
+        <!-- Main Content Area -->
+        <main id="main-container" class="flex-1 overflow-y-auto overflow-x-hidden p-6 pb-24 scrollbar-hide">
+            
+            <!-- PAGE: HOME -->
+            <div id="page-home" class="page-content fade-in block">
+                <header class="flex justify-between items-center mb-8">
+                    <div>
+                        <h1 class="text-2xl font-bold text-gray-800">صبح بخیر، دل آرام!</h1>
+                        <p class="text-sm text-gray-500 mt-1">امروزت رو چطور شروع کردی؟</p>
+                    </div>
+                    <div class="w-10 h-10 bg-teal-100 rounded-full flex items-center justify-center text-teal-700 font-bold shadow-sm">
+                        <img src="images/profile.jpg" class="inset-0 w-full h-full object-cover rounded-3xl" alt="City Map Background">
+                    </div>
+                </header>
+                <!-- Search Bar -->
+                <div class="relative mb-3 group">
+                    <input type="text" placeholder="جستجو برای ایونت..." class="w-full bg-white border border-gray-100 rounded-2xl py-3 px-4 pr-10 text-sm focus:outline-none focus:border-teal-500 focus:ring-1 focus:ring-teal-500 transition-all shadow-sm text-gray-600 placeholder-gray-400 group-hover:shadow-md">
+                    <i data-lucide="search" class="w-4 h-4 text-gray-400 absolute right-3 top-3.5"></i>
+                </div>
+
+                <!-- Quote Card -->
+                <div class="bg-gradient-to-br from-teal-500 to-emerald-600 rounded-3xl p-6 text-white shadow-lg relative overflow-hidden mb-6">
+                    <div class="absolute top-0 left-0 w-full h-full opacity-10 pointer-events-none">
+                       <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                         <path fill="#FFFFFF" d="M44.7,-76.4C58.9,-69.2,71.8,-59.1,79.6,-46.3C87.4,-33.5,90.1,-18,87.9,-3.3C85.7,11.4,78.6,25.3,69.5,37.3C60.4,49.3,49.3,59.4,36.9,65.8C24.5,72.2,10.8,74.9,-1.8,78C-14.4,81.1,-27.2,84.6,-38.6,79.5C-50,74.4,-60,60.7,-68.2,46.5C-76.4,32.3,-82.8,17.6,-82.3,3.3C-81.8,-11,-74.4,-24.9,-64.5,-36.3C-54.6,-47.7,-42.2,-56.6,-29.4,-64.4C-16.6,-72.2,-3.4,-78.9,9.4,-78.5C22.2,-78.1,30.5,-70.6,44.7,-76.4Z" transform="translate(100 100)" />
+                       </svg>
+                    </div>
+                    <div class="relative z-10">
+                        <h3 class="font-bold text-lg mb-2 opacity-90">جمله روز</h3>
+                        <p id="daily-quote" class="text-lg leading-relaxed font-light">"در حال بارگذاری..."</p>
+                    </div>
+                </div>
+
+                <!-- Mood Selector -->
+                <div class="mb-6">
+                    <h3 class="text-lg font-bold text-gray-800 mb-4">الان چه حسی داری؟</h3>
+                    <div class="grid grid-cols-3 gap-4">
+                        <button onclick="setMood('great')" id="btn-mood-great" class="mood-btn flex flex-col items-center p-4 rounded-2xl transition-all duration-300 bg-white shadow-sm hover:bg-gray-50 border border-transparent">
+                            <div class="mb-2 text-gray-500 icon-container">
+                                <i data-lucide="smile" class="w-8 h-8"></i>
+                            </div>
+                            <span class="text-sm font-medium text-gray-600 label-text">عالی</span>
+                        </button>
+                        
+                        <button onclick="setMood('meh')" id="btn-mood-meh" class="mood-btn flex flex-col items-center p-4 rounded-2xl transition-all duration-300 bg-white shadow-sm hover:bg-gray-50 border border-transparent">
+                            <div class="mb-2 text-gray-500 icon-container">
+                                <i data-lucide="meh" class="w-8 h-8"></i>
+                            </div>
+                            <span class="text-sm font-medium text-gray-600 label-text">معمولی</span>
+                        </button>
+                        
+                        <button onclick="setMood('bad')" id="btn-mood-bad" class="mood-btn flex flex-col items-center p-4 rounded-2xl transition-all duration-300 bg-white shadow-sm hover:bg-gray-50 border border-transparent">
+                            <div class="mb-2 text-gray-500 icon-container">
+                                <i data-lucide="frown" class="w-8 h-8"></i>
+                            </div>
+                            <span class="text-sm font-medium text-gray-600 label-text">خسته</span>
+                        </button>
+                    </div>
+                </div>
+
+                
+
+                <!-- Suggestion Box (Hidden initially) -->
+                <div id="suggestion-box" class="hidden bg-blue-50 mb-5 rounded-2xl p-5 border border-blue-100 flex items-start gap-4 fade-in">
+                    <div class="bg-white p-2 rounded-full shadow-sm text-blue-500">
+                        <i data-lucide="music" class="w-6 h-6"></i>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-blue-800 text-sm mb-1">پیشنهاد هوشمند</h4>
+                        <p id="suggestion-text" class="text-xs text-blue-600 leading-relaxed"></p>
+                    </div>
+                </div>
+
+                <!-- UPDATE: Nearby Opportunities Section -->
+                <div class="mb-20">
+                    <div class="flex justify-between items-end mb-3">
+                       <h3 class="text-base font-bold text-gray-800">فرصت‌های اطراف شما</h3>
+                       <button class="text-xs text-teal-600 font-bold hover:underline">دیدن روی نقشه</button>
+                   </div>
+                   
+                   <div class="space-y-3">
+                       <!-- Card 1: Dog Walking -->
+                       <div class="bg-white border border-gray-100 p-3 rounded-2xl flex gap-3 shadow-sm hover:shadow-md transition-shadow cursor-pointer">
+                            <div class="relative w-24 h-24 shrink-0">
+                                <img src="https://images.unsplash.com/photo-1601758228041-f3b2795255f1?ixlib=rb-1.2.1&auto=format&fit=crop&w=200&q=80" alt="Dog Walking" class="w-full h-full rounded-xl object-cover">
+                                <div class="absolute top-1 right-1 bg-white/90 p-1 rounded-full shadow-sm">
+                                    <i data-lucide="paw-print" class="w-3.5 h-3.5 text-orange-500"></i>
+                                </div>
+                            </div>
+                            <div class="flex flex-col justify-center flex-1">
+                                <h4 class="font-bold text-gray-800 text-sm">پارک جنگلی (مخصوص حیوانات)</h4>
+                                <p class="text-xs text-gray-500 mt-1 flex items-center gap-1">
+                                   <i data-lucide="map-pin" class="w-3 h-3 text-gray-400"></i>
+                                   ۲.۵ کیلومتری • مناسب سگ‌گردانی
+                                </p>
+                                <div class="mt-2 flex items-center gap-2">
+                                    <span class="text-[10px] bg-orange-50 text-orange-600 px-2 py-0.5 rounded-md font-medium">پت‌فرندلی</span>
+                                    <span class="text-[10px] bg-green-50 text-green-600 px-2 py-0.5 rounded-md font-medium">فضای باز</span>
+                                </div>
+                            </div>
+                       </div>
+
+                       <!-- Card 2: Group Walking -->
+                       <div class="bg-white border border-gray-100 p-3 rounded-2xl flex gap-3 shadow-sm hover:shadow-md transition-shadow cursor-pointer">
+                            <div class="relative w-24 h-24 shrink-0">
+                                <img src="https://images.unsplash.com/photo-1472289065668-ce650ac443d2?ixlib=rb-1.2.1&auto=format&fit=crop&w=200&q=80" alt="Group Walking" class="w-full h-full rounded-xl object-cover">
+                                <div class="absolute top-1 right-1 bg-white/90 p-1 rounded-full shadow-sm">
+                                    <i data-lucide="users" class="w-3.5 h-3.5 text-blue-500"></i>
+                                </div>
+                            </div>
+                            <div class="flex flex-col justify-center flex-1">
+                                <h4 class="font-bold text-gray-800 text-sm">پیاده‌روی دسته‌جمعی صبحگاهی</h4>
+                                <p class="text-xs text-gray-500 mt-1 flex items-center gap-1">
+                                   <i data-lucide="clock" class="w-3 h-3 text-gray-400"></i>
+                                   فردا ساعت ۷:۰۰ • پارک لاله
+                                </p>
+                                <div class="mt-2 flex items-center gap-2">
+                                    <span class="text-[10px] bg-blue-50 text-blue-600 px-2 py-0.5 rounded-md font-medium">اجتماعی</span>
+                                    <span class="text-[10px] bg-gray-100 text-gray-600 px-2 py-0.5 rounded-md font-medium">رایگان</span>
+                                </div>
+                            </div>
+                       </div>
+
+                       <!-- Card 3: Cultural Event -->
+                        <div class="bg-white border border-gray-100 p-3 rounded-2xl flex gap-3 shadow-sm hover:shadow-md transition-shadow cursor-pointer">
+                            <div class="relative w-24 h-24 shrink-0">
+                                <img src="https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?ixlib=rb-1.2.1&auto=format&fit=crop&w=200&q=80" alt="Book Event" class="w-full h-full rounded-xl object-cover">
+                                <div class="absolute top-1 right-1 bg-white/90 p-1 rounded-full shadow-sm">
+                                    <i data-lucide="coffee" class="w-3.5 h-3.5 text-amber-600"></i>
+                                </div>
+                            </div>
+                            <div class="flex flex-col justify-center flex-1">
+                                <h4 class="font-bold text-gray-800 text-sm">کافه کتاب و گفتگو</h4>
+                                <p class="text-xs text-gray-500 mt-1 flex items-center gap-1">
+                                   <i data-lucide="map-pin" class="w-3 h-3 text-gray-400"></i>
+                                   ۵۰۰ متری • کافه نادری
+                                </p>
+                                <div class="mt-2 flex items-center gap-2">
+                                    <span class="text-[10px] bg-amber-50 text-amber-600 px-2 py-0.5 rounded-md font-medium">آرامش</span>
+                                    <span class="text-[10px] bg-purple-50 text-purple-600 px-2 py-0.5 rounded-md font-medium">فرهنگی</span>
+                                </div>
+                            </div>
+                       </div>
+
+                   </div>
+               </div>
+            </div>
+
+            <!-- PAGE: ROUTES -->
+            <div id="page-routes" class="page-content hidden fade-in h-full flex flex-col">
+                <header>
+                    <h1 class="text-2xl font-bold text-gray-800">انتخاب مسیر</h1>
+                    <p class="text-sm text-gray-500 mt-1">کجا می‌خواهی بروی؟</p>
+                </header>
+
+
+                <!-- Mock Map Area (UPDATED BACKGROUND) -->
+                <div class="bg-gray-100 rounded-3xl h-64 w-full relative overflow-hidden shadow-inner flex items-center justify-center my-6 shrink-0">
+                    <!-- Map Background Image -->
+                    <img src="images/map2.jpg" class="absolute inset-0 w-full h-full object-cover opacity-50" alt="City Map Background">
+                    
+                    <!-- SVG Map Lines -->
+                    <svg class="absolute inset-0 w-full h-full pointer-events-none z-10" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Route 1: Fast (Yellow) -->
+                    <path id="route-line-1" d="M50 200 Q 100 100 300 50" stroke="#EAB308" stroke-width="4" fill="none" stroke-dasharray="5,5" class="transition-opacity duration-300 opacity-30 shadow-sm" />
+                    <!-- Route 2: Green (Green) -->
+                    <path id="route-line-2" d="M50 200 C 100 200 150 100 300 50" stroke="#22C55E" stroke-width="5" fill="none" class="transition-opacity duration-300 opacity-100 drop-shadow-md" />
+                    <!-- Route 3: Safe (Blue) -->
+                    <path id="route-line-3" d="M50 200 Q 200 200 300 50" stroke="#3B82F6" stroke-width="4" fill="none" class="transition-opacity duration-300 opacity-30 shadow-sm" />
+                    
+                    <!-- Pins -->
+                    <circle cx="50" cy="200" r="6" fill="#475569" class="drop-shadow-md" />
+                    <circle cx="300" cy="50" r="6" fill="#EF4444" class="drop-shadow-md" />
+                    </svg>
+
+                    <div class="z-20 bg-white/90 backdrop-blur-sm px-4 py-2 rounded-full text-xs font-bold text-gray-600 shadow-sm flex items-center gap-2 border border-gray-200">
+                        <i data-lucide="map-pin" class="w-3 h-3 text-red-500"></i>
+                        مقصد: دفتر مرکزی
+                    </div>
+                </div>
+
+
+                <div class="flex-1 space-y-3 pb-20">
+                    <h3 class="font-bold text-gray-700 mb-2">مسیرهای پیشنهادی</h3>
+                    
+                    <!-- Route Card 1 -->
+                    <div onclick="selectRoute(1)" id="route-card-1" class="route-card p-4 rounded-2xl border-2 cursor-pointer transition-all duration-300 flex items-center gap-4 border-gray-100 bg-white hover:border-gray-200">
+                        <div class="w-12 h-12 rounded-full flex items-center justify-center bg-white shadow-sm shrink-0">
+                            <i data-lucide="zap" class="text-yellow-500 w-5 h-5"></i>
+                        </div>
+                        <div class="flex-1">
+                            <div class="flex justify-between items-center mb-1">
+                                <h4 class="font-bold text-gray-800">سریع‌ترین مسیر</h4>
+                                <span class="text-sm font-bold text-gray-600 bg-white/50 px-2 py-0.5 rounded-lg">۱۵ دقیقه</span>
+                            </div>
+                            <p class="text-xs text-gray-500">ترافیک روان، مستقیم.</p>
+                        </div>
+                        <div class="check-icon w-6 h-6 rounded-full bg-teal-500 flex items-center justify-center hidden">
+                            <i data-lucide="check" class="text-white w-4 h-4"></i>
+                        </div>
+                    </div>
+
+                    <!-- Route Card 2 -->
+                    <div onclick="selectRoute(2)" id="route-card-2" class="route-card p-4 rounded-2xl border-2 cursor-pointer transition-all duration-300 flex items-center gap-4 border-green-200 bg-green-50 shadow-md">
+                        <div class="w-12 h-12 rounded-full flex items-center justify-center bg-white shadow-sm shrink-0">
+                            <i data-lucide="leaf" class="text-green-500 w-5 h-5"></i>
+                        </div>
+                        <div class="flex-1">
+                            <div class="flex justify-between items-center mb-1">
+                                <h4 class="font-bold text-gray-800">مسیر سبز و زیبا</h4>
+                                <span class="text-sm font-bold text-gray-600 bg-white/50 px-2 py-0.5 rounded-lg">۲۵ دقیقه</span>
+                            </div>
+                            <p class="text-xs text-gray-500">گذر از پارک ملت، هوای پاک.</p>
+                        </div>
+                        <div class="check-icon w-6 h-6 rounded-full bg-teal-500 flex items-center justify-center">
+                            <i data-lucide="check" class="text-white w-4 h-4"></i>
+                        </div>
+                    </div>
+
+                    <!-- Route Card 3 -->
+                    <div onclick="selectRoute(3)" id="route-card-3" class="route-card p-4 rounded-2xl border-2 cursor-pointer transition-all duration-300 flex items-center gap-4 border-gray-100 bg-white hover:border-gray-200">
+                        <div class="w-12 h-12 rounded-full flex items-center justify-center bg-white shadow-sm shrink-0">
+                            <i data-lucide="shield" class="text-blue-500 w-5 h-5"></i>
+                        </div>
+                        <div class="flex-1">
+                            <div class="flex justify-between items-center mb-1">
+                                <h4 class="font-bold text-gray-800">امن‌ترین مسیر</h4>
+                                <span class="text-sm font-bold text-gray-600 bg-white/50 px-2 py-0.5 rounded-lg">۲۰ دقیقه</span>
+                            </div>
+                            <p class="text-xs text-gray-500">روشنایی کامل، مسیر پرتردد.</p>
+                        </div>
+                        <div class="check-icon w-6 h-6 rounded-full bg-teal-500 flex items-center justify-center hidden">
+                            <i data-lucide="check" class="text-white w-4 h-4"></i>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- PAGE: MASLOW -->
+            <div id="page-maslow" class="page-content hidden fade-in h-full flex flex-col space-y-6">
+                <header>
+                    <h1 class="text-2xl font-bold text-gray-800">هرم شادی من</h1>
+                    <p class="text-sm text-gray-500 mt-1">وضعیت کنونی نیازهای شما</p>
+                </header>
+
+                <div class="flex-1 flex flex-col items-center justify-center relative py-4">
+                    <!-- Pyramid Container -->
+                    <div class="w-full max-w-xs flex flex-col gap-1.5" id="maslow-container">
+                        <!-- Levels are injected via JS or hardcoded below for simplicity/reference, but logic will control expansion -->
+                        
+                        <!-- Level 5: Self-Actualization -->
+                        <div onclick="toggleMaslow(5)" id="maslow-5" class="maslow-level w-[30%] h-12 hover:scale-105 bg-purple-500 mx-auto rounded-lg flex flex-col items-center justify-center text-white font-bold text-sm relative cursor-pointer transition-all duration-500 px-3">
+                            <span class="level-title">خودشکوفایی</span>
+                            <div class="level-detail hidden absolute bottom-2 left-0 right-0 px-4 text-center">
+                                <p class="text-[10px] text-white/90 font-normal leading-tight">رشد شخصی، معنا، خلاقیت</p>
+                                <div class="w-full bg-white/30 h-1.5 rounded-full mt-2 overflow-hidden"><div class="bg-white h-full rounded-full" style="width: 70%"></div></div>
+                            </div>
+                        </div>
+
+                        <!-- Level 4: Esteem -->
+                        <div onclick="toggleMaslow(4)" id="maslow-4" class="maslow-level w-[45%] h-12 hover:scale-105 bg-indigo-500 mx-auto rounded-lg flex flex-col items-center justify-center text-white font-bold text-sm relative cursor-pointer transition-all duration-500">
+                            <span class="level-title">احترام و ارزشمندی</span>
+                            <div class="level-detail hidden absolute bottom-2 left-0 right-0 px-4 text-center">
+                                <p class="text-[10px] text-white/90 font-normal leading-tight">عزت نفس، دستاوردها، احترام</p>
+                                <div class="w-full bg-white/30 h-1.5 rounded-full mt-2 overflow-hidden"><div class="bg-white h-full rounded-full" style="width: 85%"></div></div>
+                            </div>
+                        </div>
+
+                        <!-- Level 3: Belonging -->
+                        <div onclick="toggleMaslow(3)" id="maslow-3" class="maslow-level w-[60%] h-12 hover:scale-105 bg-pink-500 mx-auto rounded-lg flex flex-col items-center justify-center text-white font-bold text-sm relative cursor-pointer transition-all duration-500">
+                            <span class="level-title">تعلق و عشق</span>
+                            <div class="level-detail hidden absolute bottom-2 left-0 right-0 px-4 text-center">
+                                <p class="text-[10px] text-white/90 font-normal leading-tight">دوستی، خانواده، ارتباطات</p>
+                                <div class="w-full bg-white/30 h-1.5 rounded-full mt-2 overflow-hidden"><div class="bg-white h-full rounded-full" style="width: 45%"></div></div>
+                            </div>
+                        </div>
+
+                        <!-- Level 2: Safety -->
+                        <div onclick="toggleMaslow(2)" id="maslow-2" class="maslow-level w-[80%] h-12 hover:scale-105 bg-blue-500 mx-auto rounded-lg flex flex-col items-center justify-center text-white font-bold text-sm relative cursor-pointer transition-all duration-500">
+                            <span class="level-title">امنیت</span>
+                            <div class="level-detail hidden absolute bottom-2 left-0 right-0 px-4 text-center">
+                                <p class="text-[10px] text-white/90 font-normal leading-tight">امنیت شخصی، شغلی، سلامتی</p>
+                                <div class="w-full bg-white/30 h-1.5 rounded-full mt-2 overflow-hidden"><div class="bg-white h-full rounded-full" style="width: 90%"></div></div>
+                            </div>
+                        </div>
+
+                        <!-- Level 1: Physiological -->
+                        <div onclick="toggleMaslow(1)" id="maslow-1" class="maslow-level w-full h-12 hover:scale-105 bg-orange-500 mx-auto rounded-lg flex flex-col items-center justify-center text-white font-bold text-sm relative cursor-pointer transition-all duration-500">
+                            <span class="level-title">نیازهای فیزیولوژیک</span>
+                            <div class="level-detail hidden absolute bottom-2 left-0 right-0 px-4 text-center">
+                                <p class="text-[10px] text-white/90 font-normal leading-tight">غذا، آب، خواب، پناهگاه</p>
+                                <div class="w-full bg-white/30 h-1.5 rounded-full mt-2 overflow-hidden"><div class="bg-white h-full rounded-full" style="width: 95%"></div></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <p class="text-xs text-center text-gray-400 mt-8 max-w-[250px]">
+                        برای مشاهده جزئیات و پیشرفت خود، روی هر لایه از هرم ضربه بزنید.
+                    </p>
+                </div>
+
+                <div class="bg-white rounded-2xl p-4 shadow-sm border border-gray-100">
+                    <div class="flex items-center gap-3 mb-3">
+                        <i data-lucide="trending-up" class="text-teal-600 w-5 h-5"></i>
+                        <h3 class="font-bold text-gray-800 text-sm">تحلیل هوشمند</h3>
+                    </div>
+                    <p class="text-xs text-gray-500 leading-relaxed text-justify">
+                        دل آرام عزیز، نیازهای پایه و امنیت شما در وضعیت پایداری قرار دارند. پیشنهاد می‌کنیم این هفته تمرکز بیشتری روی لایه «تعلق» داشته باشید. شرکت در رویدادهای گروهی می‌تواند مفید باشد.
+                    </p>
+                </div>
+            </div>
+
+            <!-- PAGE: STATS -->
+            <div id="page-stats" class="page-content hidden fade-in space-y-6">
+                <header>
+                    <h1 class="text-2xl font-bold text-gray-800">آمار بهزیستی</h1>
+                    <p class="text-sm text-gray-500 mt-1">روند تغییرات حال خوب تو</p>
+                </header>
+
+                <!-- 1. Life Satisfaction Chart (Line Chart) -->
+                <div class="bg-white p-6 rounded-3xl shadow-sm border border-gray-100">
+                    <div class="flex justify-between items-start mb-6">
+                        <div>
+                            <h3 class="text-gray-800 font-bold mb-1">رضایت از زندگی</h3>
+                            <p class="text-xs text-gray-400">میانگین هفتگی</p>
+                        </div>
+                        <div class="text-right">
+                             <span class="text-3xl font-extrabold text-teal-600">۷.۸</span>
+                             <div class="flex items-center justify-end gap-1 text-green-500 mt-1">
+                                 <i data-lucide="trending-up" class="w-3 h-3"></i>
+                                 <span class="text-[10px] font-bold">۱۲٪ رشد</span>
+                             </div>
+                        </div>
+                    </div>
+
+                    <!-- Line Chart Visualization -->
+                    <div class="relative h-40 w-full">
+                        <!-- Grid Lines -->
+                        <div class="absolute inset-0 flex flex-col justify-between text-[10px] text-gray-300 pointer-events-none">
+                            <div class="border-b border-gray-100 w-full h-0"></div>
+                            <div class="border-b border-gray-100 w-full h-0"></div>
+                            <div class="border-b border-gray-100 w-full h-0"></div>
+                            <div class="border-b border-gray-100 w-full h-0"></div>
+                            <div class="border-b border-gray-100 w-full h-0"></div>
+                        </div>
+
+                        <!-- SVG Chart -->
+                        <svg class="absolute inset-0 w-full h-full overflow-visible" preserveAspectRatio="none">
+                            <!-- Gradient Area -->
+                            <defs>
+                                <linearGradient id="chartGradient" x1="0" x2="0" y1="0" y2="1">
+                                    <stop offset="0%" stop-color="#14b8a6" stop-opacity="0.2"/>
+                                    <stop offset="100%" stop-color="#14b8a6" stop-opacity="0"/>
+                                </linearGradient>
+                            </defs>
+                            <!-- The Area Fill -->
+                            <path d="M0,80 L0,120 L50,100 L100,110 L150,50 L200,70 L250,30 L300,50 L300,160 L0,160 Z" fill="url(#chartGradient)" stroke="none" />
+                            <!-- The Line -->
+                            <polyline points="0,120 50,100 100,110 150,50 200,70 250,30 300,50" fill="none" stroke="#0d9488" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke" />
+                            
+                            <!-- Points -->
+                            <circle cx="0%" cy="120" r="3" class="fill-white stroke-teal-600 stroke-2" />
+                            <circle cx="16.6%" cy="100" r="3" class="fill-white stroke-teal-600 stroke-2" />
+                            <circle cx="33.3%" cy="110" r="3" class="fill-white stroke-teal-600 stroke-2" />
+                            <circle cx="50%" cy="50" r="3" class="fill-white stroke-teal-600 stroke-2" />
+                            <circle cx="66.6%" cy="70" r="3" class="fill-white stroke-teal-600 stroke-2" />
+                            <circle cx="83.3%" cy="30" r="3" class="fill-white stroke-teal-600 stroke-2" />
+                            <circle cx="100%" cy="50" r="3" class="fill-white stroke-teal-600 stroke-2" />
+                        </svg>
+                    </div>
+                    
+                    <!-- X Axis Labels -->
+                    <div class="flex justify-between mt-2 text-[10px] text-gray-400">
+                        <span>ش</span>
+                        <span>ی</span>
+                        <span>د</span>
+                        <span>س</span>
+                        <span>چ</span>
+                        <span>پ</span>
+                        <span>ج</span>
+                    </div>
+                </div>
+
+                <!-- 2. Small Stats Grid -->
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="bg-orange-50 p-4 rounded-2xl flex flex-col items-center justify-center text-center">
+                        <div class="w-8 h-8 rounded-full bg-orange-100 text-orange-500 flex items-center justify-center mb-2">
+                            <i data-lucide="flame" class="w-5 h-5"></i>
+                        </div>
+                        <span class="text-2xl font-bold text-gray-800">۱۲</span>
+                        <span class="text-[10px] text-gray-500 mt-1">روز تداوم</span>
+                    </div>
+                    <div class="bg-indigo-50 p-4 rounded-2xl flex flex-col items-center justify-center text-center">
+                        <div class="w-8 h-8 rounded-full bg-indigo-100 text-indigo-500 flex items-center justify-center mb-2">
+                            <i data-lucide="moon" class="w-5 h-5"></i>
+                        </div>
+                        <span class="text-2xl font-bold text-gray-800">۷.۵</span>
+                        <span class="text-[10px] text-gray-500 mt-1">ساعت خواب</span>
+                    </div>
+                </div>
+
+                <!-- 3. Emotion Analysis (Donut Chart) - REPLACEMENT SECTION -->
+                <div class="bg-white p-6 rounded-3xl shadow-sm border border-gray-100 mb-20">
+                    <h3 class="text-gray-800 font-bold mb-6">تحلیل احساسات هفته</h3>
+                    
+                    <div class="flex items-center gap-6">
+                        <!-- CSS Donut Chart -->
+                        <div class="relative w-32 h-32 rounded-full shrink-0" style="background: conic-gradient(#fb923c 0% 25%, #3b82f6 25% 60%, #2dd4bf 60% 100%);">
+                            <div class="absolute inset-0 m-auto w-24 h-24 bg-white rounded-full flex items-center justify-center flex-col">
+                                <span class="text-xs text-gray-400">ثبت شده</span>
+                                <span class="text-xl font-bold text-gray-800">۲۸</span>
+                            </div>
+                        </div>
+
+                        <!-- Legend -->
+                        <div class="flex flex-col gap-3 w-full">
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center gap-2">
+                                    <span class="w-3 h-3 rounded-full bg-teal-400"></span>
+                                    <span class="text-xs text-gray-600">عالی</span>
+                                </div>
+                                <span class="text-xs font-bold text-gray-800">۴۰٪</span>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center gap-2">
+                                    <span class="w-3 h-3 rounded-full bg-blue-500"></span>
+                                    <span class="text-xs text-gray-600">معمولی</span>
+                                </div>
+                                <span class="text-xs font-bold text-gray-800">۳۵٪</span>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center gap-2">
+                                    <span class="w-3 h-3 rounded-full bg-orange-400"></span>
+                                    <span class="text-xs text-gray-600">خسته</span>
+                                </div>
+                                <span class="text-xs font-bold text-gray-800">۲۵٪</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-6 pt-4 border-t border-gray-50">
+                        <p class="text-xs text-gray-500 leading-relaxed text-justify">
+                            <span class="font-bold text-teal-600">تحلیل:</span> 
+                            نسبت به هفته گذشته احساسات مثبت بیشتری ثبت کرده‌اید. روند فعلی نشان‌دهنده بهبود در مدیریت استرس است.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PAGE: PROFILE (New Section) -->
+            <div id="page-profile" class="page-content hidden fade-in space-y-6">
+                <header>
+                    <h1 class="text-2xl font-bold text-gray-800">پروفایل کاربری</h1>
+                    <p class="text-sm text-gray-500 mt-1">تنظیمات و اطلاعات شخصی</p>
+                </header>
+            
+                <!-- User Info Card -->
+                <div class="bg-white p-6 rounded-3xl shadow-sm border border-gray-100 flex flex-col items-center">
+                    <div class="relative">
+                        <div class="w-24 h-24 bg-teal-100 rounded-full flex items-center justify-center text-teal-700 text-3xl font-bold mb-4 shadow-inner">
+                            <img src="images/profile.jpg" class="inset-0 w-full h-full object-cover rounded-3xl" alt="City Map Background">
+                        </div>
+                        <div class="absolute bottom-4 left-0 bg-yellow-400 border-2 border-white w-6 h-6 rounded-full flex items-center justify-center">
+                            <i data-lucide="star" class="w-3 h-3 text-white fill-current"></i>
+                        </div>
+                    </div>
+                    <h2 class="text-xl font-bold text-gray-800">دل آرام شوشتری</h2>
+                    <p class="text-sm text-gray-500">عضو طلایی | تهران</p>
+                    
+                    <div class="flex gap-4 mt-6 w-full">
+                        <div class="flex-1 bg-gray-50 rounded-2xl p-3 text-center">
+                            <span class="block text-lg font-bold text-teal-600">۱۲</span>
+                            <span class="text-[10px] text-gray-400">روز فعالیت</span>
+                        </div>
+                        <div class="flex-1 bg-gray-50 rounded-2xl p-3 text-center">
+                            <span class="block text-lg font-bold text-teal-600">۴۸</span>
+                            <span class="text-[10px] text-gray-400">امتیاز شادی</span>
+                        </div>
+                    </div>
+                </div>
+            
+                <!-- Menu List -->
+                <div class="space-y-3">
+                    <button class="w-full bg-white p-4 rounded-2xl flex items-center justify-between shadow-sm border border-transparent hover:border-gray-200 transition-all group">
+                        <div class="flex items-center gap-3">
+                            <div class="bg-blue-50 text-blue-500 p-2 rounded-lg group-hover:bg-blue-100 transition-colors">
+                                <i data-lucide="settings" class="w-5 h-5"></i>
+                            </div>
+                            <span class="font-bold text-gray-700 text-sm">تنظیمات</span>
+                        </div>
+                        <i data-lucide="chevron-left" class="w-5 h-5 text-gray-400"></i>
+                    </button>
+                    
+                    <button class="w-full bg-white p-4 rounded-2xl flex items-center justify-between shadow-sm border border-transparent hover:border-gray-200 transition-all group">
+                        <div class="flex items-center gap-3">
+                            <div class="bg-purple-50 text-purple-500 p-2 rounded-lg group-hover:bg-purple-100 transition-colors">
+                                <i data-lucide="bell" class="w-5 h-5"></i>
+                            </div>
+                            <span class="font-bold text-gray-700 text-sm">اعلان‌ها</span>
+                        </div>
+                        <div class="bg-red-500 text-white text-[10px] w-5 h-5 rounded-full flex items-center justify-center">۲</div>
+                    </button>
+                    
+                    <button class="w-full bg-white p-4 rounded-2xl flex items-center justify-between shadow-sm border border-transparent hover:border-gray-200 transition-all group">
+                        <div class="flex items-center gap-3">
+                            <div class="bg-teal-50 text-teal-600 p-2 rounded-lg group-hover:bg-teal-100 transition-colors">
+                                <i data-lucide="heart-handshake" class="w-5 h-5"></i>
+                            </div>
+                            <span class="font-bold text-gray-700 text-sm">پشتیبانی</span>
+                        </div>
+                        <i data-lucide="chevron-left" class="w-5 h-5 text-gray-400"></i>
+                    </button>
+
+                        <button class="w-full bg-white p-4 rounded-2xl flex items-center justify-between shadow-sm border border-transparent hover:border-red-100 transition-all group mt-4">
+                        <div class="flex items-center gap-3">
+                            <div class="bg-red-50 text-red-500 p-2 rounded-lg group-hover:bg-red-100 transition-colors">
+                                <i data-lucide="log-out" class="w-5 h-5"></i>
+                            </div>
+                            <span class="font-bold text-red-600 text-sm">خروج از حساب</span>
+                        </div>
+                    </button>
+                </div>
+            </div>
+
+        </main>
+
+        <!-- Bottom Navigation Bar -->
+        <div class="absolute bottom-0 left-0 right-0 bg-white/95 backdrop-blur-md border-t border-gray-100 h-20 px-6 flex justify-between items-start z-30">
+            <!-- Home Tab -->
+            <button onclick="switchTab('home')" class="nav-btn w-full flex flex-col items-center justify-center py-3 text-teal-600 transition-colors duration-300" id="nav-home">
+                <i data-lucide="sun" class="w-6 h-6"></i>
+                <span class="text-[10px] mt-1 font-medium">امروز</span>
+            </button>
+            
+            <!-- Routes Tab -->
+            <button onclick="switchTab('routes')" class="nav-btn w-full flex flex-col items-center justify-center py-3 text-gray-400 hover:text-gray-600 transition-colors duration-300" id="nav-routes">
+                <i data-lucide="map" class="w-6 h-6"></i>
+                <span class="text-[10px] mt-1 font-medium">مسیر</span>
+            </button>
+            
+            <!-- Maslow FAB -->
+            <div class="relative -top-6 group cursor-pointer" onclick="switchTab('maslow')">
+                <div id="fab-maslow" class="w-14 h-14 rounded-full flex items-center justify-center shadow-lg shadow-teal-500/30 transition-all duration-300 bg-gray-800 hover:scale-105">
+                    <i data-lucide="award" class="text-white w-6 h-6"></i>
+                </div>
+                <span id="label-maslow" class="absolute -bottom-5 w-full text-center text-[10px] font-medium transition-colors text-gray-400">هرم من</span>
+            </div>
+
+            <!-- Stats Tab -->
+            <button onclick="switchTab('stats')" class="nav-btn w-full flex flex-col items-center justify-center py-3 text-gray-400 hover:text-gray-600 transition-colors duration-300" id="nav-stats">
+                <i data-lucide="bar-chart-2" class="w-6 h-6"></i>
+                <span class="text-[10px] mt-1 font-medium">آمار</span>
+            </button>
+
+            <!-- Profile Tab (Updated) -->
+            <button onclick="switchTab('profile')" class="nav-btn w-full flex flex-col items-center justify-center py-3 text-gray-400 hover:text-gray-600 transition-colors duration-300" id="nav-profile">
+                <i data-lucide="user" class="w-6 h-6"></i>
+                <span class="text-[10px] mt-1 font-medium">پروفایل</span>
+            </button>
+        </div>
+
+    </div>
+
+    <!-- Application Logic -->
+    <script>
+        // Data
+        const QUOTES = [
+            "زندگی مانند دوچرخه سواری است. برای حفظ تعادل باید به حرکت ادامه دهید.",
+            "شادی یک جهت است، نه یک مکان.",
+            "هر روز یک شروع تازه است. نفس عمیق بکش و دوباره شروع کن.",
+            "بهترین منظره بعد از سخت‌ترین صعود می‌آید."
+        ];
+
+        const ROUTES_DATA = [
+            { id: 1, color: 'border-yellow-200 bg-yellow-50', iconClass: 'text-yellow-500' },
+            { id: 2, color: 'border-green-200 bg-green-50', iconClass: 'text-green-500' },
+            { id: 3, color: 'border-blue-200 bg-blue-50', iconClass: 'text-blue-500' }
+        ];
+
+        // State
+        let activeTab = 'home';
+        let currentMood = null;
+        let selectedRoute = 2; // Default Green
+        let activeMaslowLevel = null;
+
+        // Initialization
+        document.addEventListener('DOMContentLoaded', () => {
+            lucide.createIcons();
+            setRandomQuote();
+        });
+
+        // 1. Navigation Logic
+        function switchTab(tabId) {
+            // Hide all pages
+            document.querySelectorAll('.page-content').forEach(el => el.classList.add('hidden'));
+            
+            // Show selected page
+            document.getElementById(`page-${tabId}`).classList.remove('hidden');
+            
+            // Reset Nav Colors
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('text-teal-600');
+                btn.classList.add('text-gray-400');
+            });
+
+            // Update Active Nav Button
+            if (tabId !== 'maslow') {
+                const activeBtn = document.getElementById(`nav-${tabId}`);
+                if(activeBtn) {
+                    activeBtn.classList.add('text-teal-600');
+                    activeBtn.classList.remove('text-gray-400');
+                }
+                
+                // Reset Maslow FAB
+                const fab = document.getElementById('fab-maslow');
+                const label = document.getElementById('label-maslow');
+                fab.classList.remove('bg-teal-600', 'scale-110');
+                fab.classList.add('bg-gray-800');
+                label.classList.remove('text-teal-600');
+                label.classList.add('text-gray-400');
+            } else {
+                // Activate Maslow FAB
+                const fab = document.getElementById('fab-maslow');
+                const label = document.getElementById('label-maslow');
+                fab.classList.remove('bg-gray-800');
+                fab.classList.add('bg-teal-600', 'scale-110');
+                label.classList.remove('text-gray-400');
+                label.classList.add('text-teal-600');
+            }
+
+            activeTab = tabId;
+        }
+
+        // 2. Home Page Logic
+        function setRandomQuote() {
+            const quote = QUOTES[Math.floor(Math.random() * QUOTES.length)];
+            document.getElementById('daily-quote').innerText = `"${quote}"`;
+        }
+
+        function setMood(mood) {
+            currentMood = mood;
+            
+            // Reset all buttons
+            document.querySelectorAll('.mood-btn').forEach(btn => {
+                btn.classList.remove('bg-teal-100', 'ring-2', 'ring-teal-500', 'transform', 'scale-105');
+                btn.classList.add('bg-white', 'shadow-sm');
+                btn.querySelector('.icon-container').classList.remove('text-teal-600');
+                btn.querySelector('.icon-container').classList.add('text-gray-500');
+                btn.querySelector('.label-text').classList.remove('text-teal-800');
+                btn.querySelector('.label-text').classList.add('text-gray-600');
+            });
+
+            // Activate selected button
+            const selectedBtn = document.getElementById(`btn-mood-${mood}`);
+            selectedBtn.classList.remove('bg-white', 'shadow-sm');
+            selectedBtn.classList.add('bg-teal-100', 'ring-2', 'ring-teal-500', 'transform', 'scale-105');
+            selectedBtn.querySelector('.icon-container').classList.remove('text-gray-500');
+            selectedBtn.querySelector('.icon-container').classList.add('text-teal-600');
+            selectedBtn.querySelector('.label-text').classList.remove('text-gray-600');
+            selectedBtn.querySelector('.label-text').classList.add('text-teal-800');
+
+            // Show Suggestion
+            const suggestionBox = document.getElementById('suggestion-box');
+            const suggestionText = document.getElementById('suggestion-text');
+            
+            suggestionBox.classList.remove('hidden');
+            if (mood === 'bad') {
+                suggestionText.innerText = 'به نظر میاد روز سختی داشتی. یک موسیقی آرامش‌بخش برات آماده کردیم.';
+            } else {
+                suggestionText.innerText = 'برای حفظ این انرژی عالی، پیشنهاد می‌کنیم ۱۰ دقیقه پیاده‌روی کنی.';
+            }
+        }
+
+        // 3. Routes Page Logic
+        function selectRoute(id) {
+            selectedRoute = id;
+
+            // Update Cards UI
+            [1, 2, 3].forEach(routeId => {
+                const card = document.getElementById(`route-card-${routeId}`);
+                const checkIcon = card.querySelector('.check-icon');
+                
+                // Reset classes
+                card.className = "route-card p-4 rounded-2xl border-2 cursor-pointer transition-all duration-300 flex items-center gap-4";
+                
+                if (routeId === id) {
+                    // Active State
+                    const data = ROUTES_DATA.find(r => r.id === id);
+                    card.classList.add(...data.color.split(' '), 'shadow-md');
+                    checkIcon.classList.remove('hidden');
+                } else {
+                    // Inactive State
+                    card.classList.add('border-gray-100', 'bg-white', 'hover:border-gray-200');
+                    checkIcon.classList.add('hidden');
+                }
+            });
+
+            // Update Map Visuals (SVG Lines)
+            [1, 2, 3].forEach(lineId => {
+                const line = document.getElementById(`route-line-${lineId}`);
+                if (lineId === id) {
+                    line.classList.remove('opacity-30');
+                    line.classList.add('opacity-100', 'drop-shadow-md');
+                } else {
+                    line.classList.remove('opacity-100', 'drop-shadow-md');
+                    line.classList.add('opacity-30');
+                }
+            });
+        }
+
+        // 4. Maslow Logic
+        function toggleMaslow(levelId) {
+            const el = document.getElementById(`maslow-${levelId}`);
+            const title = el.querySelector('.level-title');
+            const detail = el.querySelector('.level-detail');
+            
+            if (activeMaslowLevel === levelId) {
+                // Close it
+                el.classList.remove('h-24', 'shadow-lg', 'scale-105', 'z-10');
+                el.classList.add('h-12', 'hover:scale-105');
+                title.classList.remove('mb-8', 'text-lg');
+                detail.classList.add('hidden');
+                activeMaslowLevel = null;
+            } else {
+                // Close previous if any
+                if (activeMaslowLevel) {
+                    const prev = document.getElementById(`maslow-${activeMaslowLevel}`);
+                    const prevTitle = prev.querySelector('.level-title');
+                    const prevDetail = prev.querySelector('.level-detail');
+                    
+                    prev.classList.remove('h-24', 'shadow-lg', 'scale-105', 'z-10');
+                    prev.classList.add('h-12', 'hover:scale-105');
+                    prevTitle.classList.remove('mb-8', 'text-lg');
+                    prevDetail.classList.add('hidden');
+                }
+
+                // Open new
+                el.classList.remove('h-12', 'hover:scale-105');
+                el.classList.add('h-24', 'shadow-lg', 'scale-105', 'z-10');
+                title.classList.add('mb-8', 'text-lg');
+                detail.classList.remove('hidden');
+                activeMaslowLevel = levelId;
+            }
+        }
+
+    </script>
+</body>
+</html>
