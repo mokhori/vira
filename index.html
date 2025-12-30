@@ -62,7 +62,8 @@
     <main id="main-container" class="flex-1 overflow-y-auto overflow-x-hidden
                                      p-4 sm:p-6
                                      pb-28 sm:pb-24
-                                     scrollbar-hide">
+                                     scrollbar-hide transition-all duration-300
+                                     ">
 
       <!-- PAGE: HOME -->
       <div id="page-home" class="page-content fade-in block">
@@ -75,17 +76,6 @@
             <img src="images/profile.jpg" class="w-full h-full object-cover" alt="Profile">
           </div>
         </header>
-
-        <!-- Search Bar -->
-        <div class="relative mb-3 group">
-          <input type="text" placeholder="جستجو برای ایونت..."
-                 class="w-full bg-white border border-gray-100 rounded-2xl
-                        py-3 px-4 pr-10 text-sm
-                        focus:outline-none focus:border-teal-500 focus:ring-1 focus:ring-teal-500
-                        transition-all shadow-sm text-gray-600 placeholder-gray-400
-                        group-hover:shadow-md" />
-          <i data-lucide="search" class="w-4 h-4 text-gray-400 absolute right-3 top-3.5"></i>
-        </div>
 
         <!-- Quote Card -->
         <div class="bg-gradient-to-br from-teal-500 to-emerald-600 rounded-3xl p-5 sm:p-6 text-white shadow-lg relative overflow-hidden mb-6">
@@ -141,83 +131,106 @@
           </div>
         </div>
 
+        
+        <!-- Search Bar -->
+        <div class="relative mb-3 group">
+            <input id="search-input" autocomplete="off" type="text" placeholder="جستجو برای ایونت..."
+                   class="w-full bg-white border border-gray-100 rounded-2xl
+                          py-3 px-4 pr-10 text-sm
+                          focus:outline-none focus:border-teal-500 focus:ring-1 focus:ring-teal-500
+                          transition-all shadow-sm text-gray-600 placeholder-gray-400
+                          group-hover:shadow-md" />
+            <i data-lucide="search" class="w-4 h-4 text-gray-400 absolute right-3 top-3.5"></i>
+          </div>
+
+
         <!-- Nearby Opportunities -->
-        <div class="mb-20">
-          <div class="flex justify-between items-end mb-3">
-            <h3 class="text-base font-bold text-gray-800">فرصت‌های اطراف شما</h3>
-            <button class="text-xs text-teal-600 font-bold hover:underline">دیدن روی نقشه</button>
-          </div>
+<div class="mb-20">
+    <div class="flex justify-between items-end mb-3">
+      <h3 class="text-base font-bold text-gray-800">فرصت‌های اطراف شما</h3>
+      <button class="text-xs text-teal-600 font-bold hover:underline">دیدن روی نقشه</button>
+    </div>
+  
+    <!-- Results meta -->
+    <p id="opps-meta" class="text-[11px] text-gray-400 mb-3"></p>
+  
+    <!-- List -->
+    <div id="opportunities-list" class="space-y-3"></div>
+  
+    <!-- Show more -->
+    <button id="opps-show-more"
+    class="hidden w-full mt-3 bg-gray-50 hover:bg-gray-100 border border-gray-200 text-gray-700 font-bold text-sm py-3 rounded-2xl transition">
+    نمایش بیشتر
+    </button>
 
-          <div class="space-y-3">
-            <!-- Card 1 -->
-            <div class="bg-white border border-gray-100 p-3 rounded-2xl flex gap-3 shadow-sm hover:shadow-md transition-shadow cursor-pointer">
-              <div class="relative w-24 h-24 shrink-0">
-                <img src="https://images.unsplash.com/photo-1601758228041-f3b2795255f1?ixlib=rb-1.2.1&auto=format&fit=crop&w=200&q=80"
-                     alt="Dog Walking" class="w-full h-full rounded-xl object-cover">
-                <div class="absolute top-1 right-1 bg-white/90 p-1 rounded-full shadow-sm">
-                  <i data-lucide="paw-print" class="w-3.5 h-3.5 text-orange-500"></i>
-                </div>
-              </div>
-              <div class="flex flex-col justify-center flex-1 min-w-0">
-                <h4 class="font-bold text-gray-800 text-sm truncate">پارک جنگلی (مخصوص حیوانات)</h4>
-                <p class="text-xs text-gray-500 mt-1 flex items-center gap-1">
-                  <i data-lucide="map-pin" class="w-3 h-3 text-gray-400"></i>
-                  ۲.۵ کیلومتری • مناسب سگ‌گردانی
-                </p>
-                <div class="mt-2 flex items-center gap-2 flex-wrap">
-                  <span class="text-[10px] bg-orange-50 text-orange-600 px-2 py-0.5 rounded-md font-medium">پت‌فرندلی</span>
-                  <span class="text-[10px] bg-green-50 text-green-600 px-2 py-0.5 rounded-md font-medium">فضای باز</span>
-                </div>
-              </div>
-            </div>
 
-            <!-- Card 2 -->
-            <div class="bg-white border border-gray-100 p-3 rounded-2xl flex gap-3 shadow-sm hover:shadow-md transition-shadow cursor-pointer">
-              <div class="relative w-24 h-24 shrink-0">
-                <img src="https://images.unsplash.com/photo-1472289065668-ce650ac443d2?ixlib=rb-1.2.1&auto=format&fit=crop&w=200&q=80"
-                     alt="Group Walking" class="w-full h-full rounded-xl object-cover">
-                <div class="absolute top-1 right-1 bg-white/90 p-1 rounded-full shadow-sm">
-                  <i data-lucide="users" class="w-3.5 h-3.5 text-blue-500"></i>
-                </div>
-              </div>
-              <div class="flex flex-col justify-center flex-1 min-w-0">
-                <h4 class="font-bold text-gray-800 text-sm truncate">پیاده‌روی دسته‌جمعی صبحگاهی</h4>
-                <p class="text-xs text-gray-500 mt-1 flex items-center gap-1">
-                  <i data-lucide="clock" class="w-3 h-3 text-gray-400"></i>
-                  فردا ساعت ۷:۰۰ • پارک لاله
-                </p>
-                <div class="mt-2 flex items-center gap-2 flex-wrap">
-                  <span class="text-[10px] bg-blue-50 text-blue-600 px-2 py-0.5 rounded-md font-medium">اجتماعی</span>
-                  <span class="text-[10px] bg-gray-100 text-gray-600 px-2 py-0.5 rounded-md font-medium">رایگان</span>
-                </div>
-              </div>
-            </div>
 
-            <!-- Card 3 -->
-            <div class="bg-white border border-gray-100 p-3 rounded-2xl flex gap-3 shadow-sm hover:shadow-md transition-shadow cursor-pointer">
-              <div class="relative w-24 h-24 shrink-0">
-                <img src="https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?ixlib=rb-1.2.1&auto=format&fit=crop&w=200&q=80"
-                     alt="Book Event" class="w-full h-full rounded-xl object-cover">
-                <div class="absolute top-1 right-1 bg-white/90 p-1 rounded-full shadow-sm">
-                  <i data-lucide="coffee" class="w-3.5 h-3.5 text-amber-600"></i>
-                </div>
-              </div>
-              <div class="flex flex-col justify-center flex-1 min-w-0">
-                <h4 class="font-bold text-gray-800 text-sm truncate">کافه کتاب و گفتگو</h4>
-                <p class="text-xs text-gray-500 mt-1 flex items-center gap-1">
-                  <i data-lucide="map-pin" class="w-3 h-3 text-gray-400"></i>
-                  ۵۰۰ متری • کافه نادری
-                </p>
-                <div class="mt-2 flex items-center gap-2 flex-wrap">
-                  <span class="text-[10px] bg-amber-50 text-amber-600 px-2 py-0.5 rounded-md font-medium">آرامش</span>
-                  <span class="text-[10px] bg-purple-50 text-purple-600 px-2 py-0.5 rounded-md font-medium">فرهنگی</span>
-                </div>
-              </div>
-            </div>
-
-          </div>
-        </div>
+    <!-- Empty state -->
+    <div id="opps-empty" class="hidden mt-4 bg-gray-50 border border-gray-100 rounded-2xl p-4 text-sm text-gray-500">
+      نتیجه‌ای پیدا نشد. عبارت جستجو را تغییر بده.
+    </div>
+  </div>
+  
       </div>
+
+    <!-- PAGE: OPPORTUNITY DETAIL -->
+<div id="page-opportunity" class="page-content hidden fade-in space-y-5">
+    <header class="flex items-center gap-3">
+      <button onclick="closeOpportunityDetail()"
+              class="w-10 h-10 rounded-2xl bg-gray-50 border border-gray-100 flex items-center justify-center hover:bg-gray-100 transition">
+        <i data-lucide="chevron-right" class="w-5 h-5 text-gray-600"></i>
+      </button>
+      <div class="min-w-0">
+        <h1 id="opp-detail-title" class="text-lg font-bold text-gray-800 truncate">—</h1>
+        <p id="opp-detail-sub" class="text-sm text-gray-500 mt-0.5 truncate">—</p>
+      </div>
+    </header>
+  
+    <div class="bg-gray-100 rounded-3xl overflow-hidden h-48 sm:h-56 relative">
+      <img id="opp-detail-img" src="" alt="" class="absolute inset-0 w-full h-full object-cover">
+      <div class="absolute inset-0 bg-gradient-to-t from-black/40 via-black/10 to-transparent"></div>
+      <div class="absolute bottom-3 right-3 left-3 flex items-end justify-between gap-3">
+        <div class="min-w-0">
+          <p id="opp-detail-type" class="text-[11px] text-white/80 font-semibold"></p>
+          <p id="opp-detail-loc" class="text-sm text-white font-bold truncate"></p>
+        </div>
+        <span id="opp-detail-badge" class="shrink-0 text-[10px] bg-white/90 text-gray-700 px-2 py-1 rounded-lg font-bold"></span>
+      </div>
+    </div>
+  
+    <div class="bg-white rounded-2xl p-4 shadow-sm border border-gray-100">
+      <div class="flex items-center gap-2 mb-2 text-teal-700">
+        <i data-lucide="info" class="w-4 h-4"></i>
+        <h3 class="font-bold text-gray-800 text-sm">جزئیات</h3>
+      </div>
+      <p id="opp-detail-desc" class="text-sm text-gray-600 leading-relaxed text-justify">—</p>
+  
+      <div id="opp-detail-tags" class="flex flex-wrap gap-2 mt-4"></div>
+
+      <!-- Rating -->
+<div class="mt-5 pt-4 border-t border-gray-50">
+    <div class="flex items-center justify-between">
+      <h3 class="font-bold text-gray-800 text-sm">امتیاز کاربران</h3>
+      <div id="opp-detail-rating" class="flex items-center"></div>
+    </div>
+    <p id="opp-detail-reviews-count" class="text-[11px] text-gray-400 mt-1"></p>
+  </div>
+  
+  <!-- Reviews -->
+  <div class="mt-4">
+    <h3 class="font-bold text-gray-800 text-sm mb-3">نظرات کاربران</h3>
+    <div id="opp-detail-reviews" class="space-y-3"></div>
+  </div>
+  
+  
+      <button class="mt-5 w-full bg-teal-600 hover:bg-teal-700 text-white font-bold text-sm py-3 rounded-2xl transition">
+        شرکت / ادامه
+      </button>
+    </div>
+  
+    <div class="h-20"></div>
+  </div>
+  
 
       <!-- PAGE: ROUTES -->
       <div id="page-routes" class="page-content hidden fade-in h-full flex flex-col">
@@ -225,6 +238,22 @@
           <h1 class="text-2xl font-bold text-gray-800">انتخاب مسیر</h1>
           <p class="text-sm text-gray-500 mt-1">کجا می‌خواهی بروی؟</p>
         </header>
+
+        <!-- Destination Search -->
+<div class="relative mt-5">
+    <input id="routes-destination-search" type="text" placeholder="جستجو مقصد... (مثلاً پارک لاله)"
+           class="w-full bg-white border border-gray-100 rounded-2xl
+                  py-3 px-4 pr-10 text-sm
+                  focus:outline-none focus:border-teal-500 focus:ring-1 focus:ring-teal-500
+                  transition-all shadow-sm text-gray-700 placeholder-gray-400" />
+    <i data-lucide="search" class="w-4 h-4 text-gray-400 absolute right-3 top-3.5"></i>
+  
+    <!-- Suggestions -->
+    <div id="routes-destination-suggestions"
+         class="hidden absolute z-30 mt-2 w-full bg-white rounded-2xl border border-gray-100 shadow-lg overflow-hidden">
+    </div>
+  </div>
+  
 
         <!-- Map Area (Responsive height) -->
         <div class="bg-gray-100 rounded-3xl h-56 sm:h-64 w-full relative overflow-hidden shadow-inner flex items-center justify-center my-6 shrink-0">
@@ -240,68 +269,16 @@
 
           <div class="z-20 bg-white/90 backdrop-blur-sm px-4 py-2 rounded-full text-xs font-bold text-gray-600 shadow-sm flex items-center gap-2 border border-gray-200">
             <i data-lucide="map-pin" class="w-3 h-3 text-red-500"></i>
-            مقصد: دفتر مرکزی
+            مقصد: <span id="routes-destination-label">دفتر مرکزی</span>
+
           </div>
         </div>
 
-        <div class="flex-1 space-y-3 pb-24 sm:pb-20">
-          <h3 class="font-bold text-gray-700 mb-2">مسیرهای پیشنهادی</h3>
-
-          <!-- Route Card 1 -->
-          <div onclick="selectRoute(1)" id="route-card-1"
-               class="route-card p-4 rounded-2xl border-2 cursor-pointer transition-all duration-300 flex items-center gap-4 border-gray-100 bg-white hover:border-gray-200">
-            <div class="w-12 h-12 rounded-full flex items-center justify-center bg-white shadow-sm shrink-0">
-              <i data-lucide="zap" class="text-yellow-500 w-5 h-5"></i>
-            </div>
-            <div class="flex-1 min-w-0">
-              <div class="flex justify-between items-center mb-1 gap-3">
-                <h4 class="font-bold text-gray-800 truncate">سریع‌ترین مسیر</h4>
-                <span class="text-sm font-bold text-gray-600 bg-white/50 px-2 py-0.5 rounded-lg shrink-0">۱۵ دقیقه</span>
-              </div>
-              <p class="text-xs text-gray-500">ترافیک روان، مستقیم.</p>
-            </div>
-            <div class="check-icon w-6 h-6 rounded-full bg-teal-500 flex items-center justify-center hidden shrink-0">
-              <i data-lucide="check" class="text-white w-4 h-4"></i>
-            </div>
+        <div class="flex-1 pb-24 sm:pb-20">
+            <h3 class="font-bold text-gray-700 mb-2">مسیرهای پیشنهادی</h3>
+            <div id="routes-list" class="space-y-3"></div>
           </div>
-
-          <!-- Route Card 2 -->
-          <div onclick="selectRoute(2)" id="route-card-2"
-               class="route-card p-4 rounded-2xl border-2 cursor-pointer transition-all duration-300 flex items-center gap-4 border-green-200 bg-green-50 shadow-md">
-            <div class="w-12 h-12 rounded-full flex items-center justify-center bg-white shadow-sm shrink-0">
-              <i data-lucide="leaf" class="text-green-500 w-5 h-5"></i>
-            </div>
-            <div class="flex-1 min-w-0">
-              <div class="flex justify-between items-center mb-1 gap-3">
-                <h4 class="font-bold text-gray-800 truncate">مسیر سبز و زیبا</h4>
-                <span class="text-sm font-bold text-gray-600 bg-white/50 px-2 py-0.5 rounded-lg shrink-0">۲۵ دقیقه</span>
-              </div>
-              <p class="text-xs text-gray-500">گذر از پارک ملت، هوای پاک.</p>
-            </div>
-            <div class="check-icon w-6 h-6 rounded-full bg-teal-500 flex items-center justify-center shrink-0">
-              <i data-lucide="check" class="text-white w-4 h-4"></i>
-            </div>
-          </div>
-
-          <!-- Route Card 3 -->
-          <div onclick="selectRoute(3)" id="route-card-3"
-               class="route-card p-4 rounded-2xl border-2 cursor-pointer transition-all duration-300 flex items-center gap-4 border-gray-100 bg-white hover:border-gray-200">
-            <div class="w-12 h-12 rounded-full flex items-center justify-center bg-white shadow-sm shrink-0">
-              <i data-lucide="shield" class="text-blue-500 w-5 h-5"></i>
-            </div>
-            <div class="flex-1 min-w-0">
-              <div class="flex justify-between items-center mb-1 gap-3">
-                <h4 class="font-bold text-gray-800 truncate">امن‌ترین مسیر</h4>
-                <span class="text-sm font-bold text-gray-600 bg-white/50 px-2 py-0.5 rounded-lg shrink-0">۲۰ دقیقه</span>
-              </div>
-              <p class="text-xs text-gray-500">روشنایی کامل، مسیر پرتردد.</p>
-            </div>
-            <div class="check-icon w-6 h-6 rounded-full bg-teal-500 flex items-center justify-center hidden shrink-0">
-              <i data-lucide="check" class="text-white w-4 h-4"></i>
-            </div>
-          </div>
-
-        </div>
+          
       </div>
 
       <!-- PAGE: MASLOW -->
@@ -581,7 +558,7 @@
     </main>
 
     <!-- Bottom Navigation Bar (responsive padding + safe area) -->
-    <div class="absolute bottom-0 left-0 right-0 bg-white/95 backdrop-blur-md border-t border-gray-100
+    <div class="fixed sm:absolute bottom-0 left-0 right-0 bg-white/95 backdrop-blur-md border-t border-gray-100
                 h-20 px-4 sm:px-6 flex justify-between items-start z-30
                 pb-[env(safe-area-inset-bottom)]">
       <button onclick="switchTab('home')" class="nav-btn w-full flex flex-col items-center justify-center py-3 text-teal-600 transition-colors duration-300" id="nav-home">
@@ -629,11 +606,175 @@
       { id: 3, color: 'border-blue-200 bg-blue-50', iconClass: 'text-blue-500' }
     ];
 
+    const DESTINATIONS = [
+  { id: 'hq',     name: 'دفتر مرکزی',     area: 'مرکز شهر',   baseMinutes: 18, baseKm: 6.4 },
+  { id: 'laleh',  name: 'پارک لاله',      area: 'امیرآباد',   baseMinutes: 22, baseKm: 7.9 },
+  { id: 'ab_o_atash', name: 'پارک آب‌و‌آتش', area: 'عباس‌آباد', baseMinutes: 25, baseKm: 9.2 },
+  { id: 'naderi', name: 'کافه نادری',     area: 'خیابان جمهوری', baseMinutes: 16, baseKm: 5.1 },
+  { id: 'mellat', name: 'پارک ملت',       area: 'ولیعصر',    baseMinutes: 28, baseKm: 11.3 },
+];
+
+const ROUTE_TEMPLATES = [
+  {
+    id: 1,
+    title: 'سریع‌ترین مسیر',
+    icon: 'zap',
+    color: 'border-yellow-200 bg-yellow-50',
+    iconClass: 'text-yellow-500',
+    meta: { minutesDelta: -4, kmDelta: 0.6, traffic: 'روان', type: 'بزرگراهی' },
+    note: 'کمترین زمان، احتمال توقف کمتر.'
+  },
+  {
+    id: 2,
+    title: 'مسیر سبز و زیبا',
+    icon: 'leaf',
+    color: 'border-green-200 bg-green-50',
+    iconClass: 'text-green-500',
+    meta: { minutesDelta: +5, kmDelta: -0.2, traffic: 'متوسط', type: 'پارکی/خیابان' },
+    note: 'گذر از فضای سبز، تجربه آرام‌تر.'
+  },
+  {
+    id: 3,
+    title: 'امن‌ترین مسیر',
+    icon: 'shield',
+    color: 'border-blue-200 bg-blue-50',
+    iconClass: 'text-blue-500',
+    meta: { minutesDelta: +2, kmDelta: +0.1, traffic: 'متوسط', type: 'پرتردد/روشن' },
+    note: 'روشنایی بهتر و مسیرهای پرتردد.'
+  }
+];
+
+
+    const OPPORTUNITIES = [
+  {
+    id: 'opp_1',
+    type: 'مکان',
+    title: 'پارک جنگلی (مخصوص حیوانات)',
+    subtitle: '۲.۵ کیلومتری • مناسب سگ‌گردانی',
+    location: 'پارک جنگلی',
+    badge: 'پت‌فرندلی',
+    icon: 'paw-print',
+    iconColor: 'text-orange-500',
+    image: 'https://images.unsplash.com/photo-1601758228041-f3b2795255f1?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80',
+    tags: ['پت‌فرندلی', 'فضای باز'],
+    rating: 4.6,
+reviews: [
+  { name: 'مریم', date: '۱۴۰۴/۰۹/۱۲', text: 'خیلی تمیز و امن بود. برای سگ‌گردانی عالیه.' },
+  { name: 'علی', date: '۱۴۰۴/۱۰/۰۱', text: 'صبح‌ها خلوت‌تره و هوا هم بهتره.' },
+  { name: 'سارا', date: '۱۴۰۴/۱۰/۱۵', text: 'فضای باز خوب و مسیر پیاده‌روی مناسبی داشت.' }
+],
+
+    desc: 'محیطی آرام و ایمن برای قدم‌زدن و بازی حیوانات. بهترین زمان بازدید صبح زود یا عصر است.'
+  },
+  {
+    id: 'opp_2',
+    type: 'ایونت',
+    title: 'پیاده‌روی دسته‌جمعی صبحگاهی',
+    subtitle: 'فردا ساعت ۷:۰۰ • پارک لاله',
+    location: 'پارک لاله',
+    badge: 'رایگان',
+    icon: 'users',
+    iconColor: 'text-blue-500',
+    image: 'https://images.unsplash.com/photo-1472289065668-ce650ac443d2?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80',
+    tags: ['اجتماعی', 'رایگان'],
+    rating: 4.3,
+reviews: [
+  { name: 'رضا', date: '۱۴۰۴/۱۰/۰۵', text: 'گروه خیلی صمیمی بود، انرژی خوبی داشت.' },
+  { name: 'نگین', date: '۱۴۰۴/۱۰/۲۰', text: 'زمان‌بندی خوب بود، کاش مسیر کمی طولانی‌تر بود.' }
+],
+
+    desc: 'یک پیاده‌روی گروهی سبک برای شروع پرانرژی روز. مناسب برای آشنایی با افراد جدید.'
+  },
+  {
+    id: 'opp_3',
+    type: 'مکان',
+    title: 'کافه کتاب و گفتگو',
+    subtitle: '۵۰۰ متری • کافه نادری',
+    location: 'کافه نادری',
+    badge: 'فرهنگی',
+    icon: 'coffee',
+    iconColor: 'text-amber-600',
+    image: 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80',
+    tags: ['آرامش', 'فرهنگی'],
+    rating: 4.7,
+reviews: [
+  { name: 'یاسمن', date: '۱۴۰۴/۰۹/۲۸', text: 'فضای آرام و مناسب مطالعه. قهوه هم خوب بود.' },
+  { name: 'محمد', date: '۱۴۰۴/۱۰/۰۹', text: 'محیط نوستالژیک و گفتگوهای جالب.' },
+  { name: 'دینا', date: '۱۴۰۴/۱۰/۱۸', text: 'برای قرار کوتاه عالیه؛ خلوت‌تر از کافه‌های شلوغ.' }
+],
+
+    desc: 'فضای دنج برای مطالعه، گفتگو و آشنایی با کتاب‌های جدید. پیشنهاد: یک ساعت بدون موبایل.'
+  },
+
+  // 🔽 چندتا مورد بیشتر (می‌تونی هرچقدر خواستی اضافه کنی)
+  {
+    id: 'opp_4',
+    type: 'ایونت',
+    title: 'یوگا در فضای باز',
+    subtitle: 'جمعه ساعت ۶:۳۰ • پارک آب‌و‌آتش',
+    location: 'پارک آب‌و‌آتش',
+    badge: 'ثبت‌نام',
+    icon: 'lotus',
+    iconColor: 'text-teal-600',
+    image: 'https://images.unsplash.com/photo-1545205597-3d9d02c29597?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80',
+    tags: ['سلامتی', 'آرامش'],
+    rating: 4.4,
+reviews: [
+  { name: 'سمانه', date: '۱۴۰۴/۱۰/۰۲', text: 'تمرین‌ها سبک و خوب بود، مربی حرفه‌ای.' },
+  { name: 'کاوه', date: '۱۴۰۴/۱۰/۱۱', text: 'صبح زود عالیه، فقط زیرانداز یادتون نره.' }
+],
+
+    desc: 'کلاس سبک یوگا برای کاهش استرس و افزایش تمرکز. همراه داشتن زیرانداز توصیه می‌شود.'
+  },
+  {
+    id: 'opp_5',
+    type: 'مکان',
+    title: 'گالری کوچک هنری',
+    subtitle: '۱.۲ کیلومتری • نمایشگاه امروز',
+    location: 'خیابان کریم‌خان',
+    badge: 'هنر',
+    icon: 'image',
+    iconColor: 'text-purple-600',
+    image: 'https://images.unsplash.com/photo-1526481280695-3c687fd5432c?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80',
+    tags: ['فرهنگی', 'الهام‌بخش'],
+    rating: 4.1,
+reviews: [
+  { name: 'الهام', date: '۱۴۰۴/۰۹/۲۰', text: 'کارها متنوع بود، آدم انگیزه می‌گیره.' },
+  { name: 'پیمان', date: '۱۴۰۴/۱۰/۰۷', text: 'کوچیکه ولی جمع‌وجور و دوست‌داشتنیه.' }
+],
+
+    desc: 'نمایش آثار هنرمندان جوان. گزینه خوب برای یک قرار کوتاه عصرگاهی.'
+  },
+  {
+    id: 'opp_6',
+    type: 'ایونت',
+    title: 'کارگاه تنفس و آرام‌سازی',
+    subtitle: 'سه‌شنبه ساعت ۱۸:۰۰ • مرکز شهر',
+    location: 'مرکز شهر',
+    badge: '۳۰ نفر',
+    icon: 'wind',
+    iconColor: 'text-sky-600',
+    image: 'https://images.unsplash.com/photo-1506126613408-eca07ce68773?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80',
+    tags: ['آرامش', 'تمرکز'],
+    rating: 4.5,
+reviews: [
+  { name: 'حدیث', date: '۱۴۰۴/۱۰/۰۳', text: 'تمرین تنفس خیلی کمک کرد، حس بهتری گرفتم.' },
+  { name: 'آراد', date: '۱۴۰۴/۱۰/۱۳', text: 'فضا خوب بود، نکته‌های کاربردی گفتند.' },
+  { name: 'مهسا', date: '۱۴۰۴/۱۰/۲۱', text: 'برای کاهش استرس واقعاً مفید بود.' }
+],
+
+    desc: 'تمرین‌های ساده تنفسی برای کاهش اضطراب و بهبود کیفیت خواب.'
+  }
+];
+
+
     // State
     let activeTab = 'home';
     let currentMood = null;
     let selectedRoute = 2; // Default Green
     let activeMaslowLevel = null;
+    let selectedDestinationId = 'hq';
+
 
     // Initialization
     document.addEventListener('DOMContentLoaded', () => {
@@ -641,12 +782,64 @@
       setRandomQuote();
       // Ensure default route styling is correct if user opens Routes first
       selectRoute(selectedRoute);
+
+      // Routes init
+renderRoutes();
+const destInput = document.getElementById('routes-destination-search');
+const destBox = document.getElementById('routes-destination-suggestions');
+
+if (destInput) {
+  // default value
+  destInput.value = getSelectedDestination().name;
+
+  destInput.addEventListener('input', (e) => {
+    const q = (e.target.value || '').trim().toLowerCase();
+    const results = !q
+      ? DESTINATIONS
+      : DESTINATIONS.filter(d => (d.name + ' ' + d.area).toLowerCase().includes(q));
+    renderDestinationSuggestions(results.slice(0, 6));
+  });
+
+  destInput.addEventListener('focus', () => {
+    renderDestinationSuggestions(DESTINATIONS.slice(0, 6));
+  });
+
+  // click outside to close
+  document.addEventListener('click', (ev) => {
+    if (!destBox) return;
+    const isInside = ev.target.closest('#routes-destination-suggestions') || ev.target.closest('#routes-destination-search');
+    if (!isInside) destBox.classList.add('hidden');
+  });
+}
+
+
+      showAllOpportunities = false;
+
+      // Opportunities init + search
+    renderOpportunities(OPPORTUNITIES);
+    const search = document.getElementById('search-input');
+    if (search) search.addEventListener('input', (e) => applySearch(e.target.value));
+
     });
 
     // 1. Navigation Logic
     function switchTab(tabId) {
       document.querySelectorAll('.page-content').forEach(el => el.classList.add('hidden'));
-      document.getElementById(`page-${tabId}`).classList.remove('hidden');
+
+    // Scroll to top on tab switch
+    const main = document.getElementById('main-container');
+    if (main) main.scrollTo({ top: 0, behavior: 'smooth' });
+
+
+
+    const nextPage = document.getElementById(`page-${tabId}`);
+    nextPage.classList.remove('hidden');
+
+    // retrigger fade-in animation
+    nextPage.classList.remove('fade-in');
+    void nextPage.offsetWidth; // force reflow
+    nextPage.classList.add('fade-in');
+
 
       document.querySelectorAll('.nav-btn').forEach(btn => {
         btn.classList.remove('text-teal-600');
@@ -677,15 +870,23 @@
 
       activeTab = tabId;
 
+      // refresh routes when entering routes tab
+if (tabId === 'routes') {
+  renderRoutes();
+}
+
+
       // Recreate icons if content swapped (lucide sometimes needs this)
       lucide.createIcons();
     }
 
     // 2. Home Page Logic
     function setRandomQuote() {
-      const quote = QUOTES[Math.floor(Math.random() * QUOTES.length)];
-      document.getElementById('daily-quote').innerText = `"${quote}"`;
+    const quote = QUOTES[Math.floor(Math.random() * QUOTES.length)];
+    document.getElementById('daily-quote').innerText = `"${quote}"`;
     }
+
+
 
     function setMood(mood) {
       currentMood = mood;
@@ -713,7 +914,11 @@
       suggestionBox.classList.remove('hidden');
       if (mood === 'bad') {
         suggestionText.innerText = 'به نظر میاد روز سختی داشتی. یک موسیقی آرامش‌بخش برات آماده کردیم.';
-      } else {
+      }
+      else if(mood === 'meh'){
+        suggestionText.innerText = 'به نظر میاد حالت معمولیه؛ یه استراحت کوتاه یا یه کار کوچیک می‌تونه حالتو بهتر کنه.';
+      }
+      else {
         suggestionText.innerText = 'برای حفظ این انرژی عالی، پیشنهاد می‌کنیم ۱۰ دقیقه پیاده‌روی کنی.';
       }
 
@@ -722,38 +927,108 @@
 
     // 3. Routes Page Logic
     function selectRoute(id) {
-      selectedRoute = id;
+  selectedRoute = id;
+  renderRoutes();
+}
 
-      [1, 2, 3].forEach(routeId => {
-        const card = document.getElementById(`route-card-${routeId}`);
-        if (!card) return;
 
-        const checkIcon = card.querySelector('.check-icon');
+    function getSelectedDestination() {
+  return DESTINATIONS.find(d => d.id === selectedDestinationId) || DESTINATIONS[0];
+}
 
-        card.className = "route-card p-4 rounded-2xl border-2 cursor-pointer transition-all duration-300 flex items-center gap-4";
+function calcRouteForDestination(template, dest) {
+  const minutes = Math.max(8, Math.round(dest.baseMinutes + template.meta.minutesDelta));
+  const km = Math.max(0.5, +(dest.baseKm + template.meta.kmDelta).toFixed(1));
+  return {
+    ...template,
+    minutes,
+    km,
+    traffic: template.meta.traffic,
+    routeType: template.meta.type
+  };
+}
 
-        if (routeId === id) {
-          const data = ROUTES_DATA.find(r => r.id === id);
-          card.classList.add(...data.color.split(' '), 'shadow-md');
-          checkIcon.classList.remove('hidden');
-        } else {
-          card.classList.add('border-gray-100', 'bg-white', 'hover:border-gray-200');
-          checkIcon.classList.add('hidden');
-        }
-      });
+function renderRoutes() {
+  const dest = getSelectedDestination();
 
-      [1, 2, 3].forEach(lineId => {
-        const line = document.getElementById(`route-line-${lineId}`);
-        if (!line) return;
-        if (lineId === id) {
-          line.classList.remove('opacity-30');
-          line.classList.add('opacity-100');
-        } else {
-          line.classList.remove('opacity-100');
-          line.classList.add('opacity-30');
-        }
-      });
+  // update map label
+  const labelEl = document.getElementById('routes-destination-label');
+  if (labelEl) labelEl.textContent = dest.name;
+
+  const listEl = document.getElementById('routes-list');
+  if (!listEl) return;
+
+  listEl.innerHTML = '';
+
+  ROUTE_TEMPLATES.forEach(tpl => {
+    const r = calcRouteForDestination(tpl, dest);
+
+    const wrapper = document.createElement('div');
+    wrapper.id = `route-card-${r.id}`;
+    wrapper.onclick = () => selectRoute(r.id);
+    wrapper.className = "route-card p-4 rounded-2xl border-2 cursor-pointer transition-all duration-300 flex items-center gap-4";
+
+    // selection styling
+    if (r.id === selectedRoute) {
+      wrapper.classList.add(...r.color.split(' '), 'shadow-md');
+    } else {
+      wrapper.classList.add('border-gray-100', 'bg-white', 'hover:border-gray-200');
     }
+
+    wrapper.innerHTML = `
+      <div class="w-12 h-12 rounded-full flex items-center justify-center bg-white shadow-sm shrink-0">
+        <i data-lucide="${r.icon}" class="${r.iconClass} w-5 h-5"></i>
+      </div>
+
+      <div class="flex-1 min-w-0">
+        <div class="flex justify-between items-center mb-1 gap-3">
+          <h4 class="font-bold text-gray-800 truncate">${r.title}</h4>
+          <span class="text-sm font-bold text-gray-600 bg-white/50 px-2 py-0.5 rounded-lg shrink-0">
+            ${r.minutes} دقیقه
+          </span>
+        </div>
+
+        <p class="text-xs text-gray-500">
+          ${r.note}
+        </p>
+
+        <div class="mt-2 flex items-center gap-2 flex-wrap">
+          <span class="text-[10px] bg-gray-100 text-gray-600 px-2 py-0.5 rounded-md font-medium">
+            ${r.km} کیلومتر
+          </span>
+          <span class="text-[10px] ${r.traffic === 'روان' ? 'bg-green-50 text-green-600' : 'bg-amber-50 text-amber-600'} px-2 py-0.5 rounded-md font-medium">
+            ترافیک ${r.traffic}
+          </span>
+          <span class="text-[10px] bg-blue-50 text-blue-600 px-2 py-0.5 rounded-md font-medium">
+            ${r.routeType}
+          </span>
+        </div>
+      </div>
+
+      <div class="check-icon w-6 h-6 rounded-full bg-teal-500 flex items-center justify-center ${r.id === selectedRoute ? '' : 'hidden'} shrink-0">
+        <i data-lucide="check" class="text-white w-4 h-4"></i>
+      </div>
+    `;
+
+    listEl.appendChild(wrapper);
+  });
+
+  lucide.createIcons();
+
+  // keep route line highlight consistent
+  [1,2,3].forEach(lineId => {
+    const line = document.getElementById(`route-line-${lineId}`);
+    if (!line) return;
+    if (lineId === selectedRoute) {
+      line.classList.remove('opacity-30');
+      line.classList.add('opacity-100');
+    } else {
+      line.classList.remove('opacity-100');
+      line.classList.add('opacity-30');
+    }
+  });
+}
+
 
     // 4. Maslow Logic
     function toggleMaslow(levelId) {
@@ -786,6 +1061,263 @@
         activeMaslowLevel = levelId;
       }
     }
+
+    // 5. Opportunities (Home) + Search + Detail
+let filteredOpportunities = [...OPPORTUNITIES];
+let lastHomeTab = 'home';
+let showAllOpportunities = false;
+
+
+function renderStars(rating) {
+  const r = Math.max(0, Math.min(5, rating || 0));
+  const full = Math.floor(r);
+  const hasHalf = r - full >= 0.5;
+
+  let starsHtml = '';
+
+  for (let i = 1; i <= 5; i++) {
+    if (i <= full) {
+      // full star
+      starsHtml += `
+        <svg class="w-4 h-4 fill-yellow-400 text-yellow-400" viewBox="0 0 24 24">
+          <path d="M12 17.27L18.18 21l-1.64-7.03
+                   L22 9.24l-7.19-.61L12 2
+                   9.19 8.63 2 9.24l5.46 4.73
+                   L5.82 21z"/>
+        </svg>`;
+    } else if (i === full + 1 && hasHalf) {
+      // half star
+      starsHtml += `
+        <svg class="w-4 h-4 text-yellow-400" viewBox="0 0 24 24">
+          <defs>
+            <linearGradient id="halfGrad">
+              <stop offset="50%" stop-color="#facc15"/>
+              <stop offset="50%" stop-color="transparent"/>
+            </linearGradient>
+          </defs>
+          <path fill="url(#halfGrad)" stroke="currentColor" stroke-width="1.5"
+                d="M12 17.27L18.18 21l-1.64-7.03
+                   L22 9.24l-7.19-.61L12 2
+                   9.19 8.63 2 9.24l5.46 4.73
+                   L5.82 21z"/>
+        </svg>`;
+    } else {
+      // empty star
+      starsHtml += `
+        <svg class="w-4 h-4 text-gray-300" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+          <path d="M12 17.27L18.18 21l-1.64-7.03
+                   L22 9.24l-7.19-.61L12 2
+                   9.19 8.63 2 9.24l5.46 4.73
+                   L5.82 21z"/>
+        </svg>`;
+    }
+  }
+
+  return `
+    <div class="flex items-center gap-0.5">
+      ${starsHtml}
+      <span class="text-[11px] text-gray-600 font-bold mr-1">${r.toFixed(1)}</span>
+    </div>
+  `;
+}
+
+
+
+function renderOpportunities(list) {
+  const container = document.getElementById('opportunities-list');
+  const meta = document.getElementById('opps-meta');
+  const empty = document.getElementById('opps-empty');
+  if (!container) return;
+
+  const showMoreBtn = document.getElementById('opps-show-more');
+    const visibleList = showAllOpportunities ? list : list.slice(0, 3);
+
+
+  container.innerHTML = '';
+
+  meta.textContent = `${list.length} مورد پیدا شد`;
+
+  if (!list.length) {
+    empty.classList.remove('hidden');
+    return;
+  }
+  empty.classList.add('hidden');
+
+  visibleList.forEach(item => {
+    const tagsHtml = (item.tags || []).slice(0, 3).map(t => {
+      // رنگ ساده بر اساس نوع
+      const base =
+        item.type === 'ایونت'
+          ? 'bg-blue-50 text-blue-600'
+          : 'bg-green-50 text-green-600';
+      return `<span class="text-[10px] ${base} px-2 py-0.5 rounded-md font-medium">${t}</span>`;
+    }).join('');
+
+    const card = document.createElement('div');
+    card.className = 'bg-white border border-gray-100 p-3 rounded-2xl flex gap-3 shadow-sm hover:shadow-md transition-shadow cursor-pointer';
+    card.onclick = () => openOpportunityDetail(item.id);
+
+    card.innerHTML = `
+      <div class="relative w-24 h-24 shrink-0">
+        <img src="${item.image}" alt="${item.title}" class="w-full h-full rounded-xl object-cover">
+        <div class="absolute top-1 right-1 bg-white/90 p-1 rounded-full shadow-sm">
+          <i data-lucide="${item.icon}" class="w-3.5 h-3.5 ${item.iconColor}"></i>
+        </div>
+      </div>
+      <div class="flex flex-col justify-center flex-1 min-w-0">
+        <h4 class="font-bold text-gray-800 text-sm truncate">${item.title}</h4>
+        <p class="text-xs text-gray-500 mt-1 flex items-center gap-1">
+          <i data-lucide="${item.type === 'ایونت' ? 'clock' : 'map-pin'}" class="w-3 h-3 text-gray-400"></i>
+          <span class="truncate">${item.subtitle}</span>
+        </p>
+        <div class="mt-2 flex items-center gap-2 flex-wrap">
+          ${tagsHtml}
+        </div>
+        <div class="mt-2 flex items-center justify-between">
+  <div class="flex items-center">
+    ${renderStars(item.rating)}
+  </div>
+  <span class="text-[11px] text-gray-400">
+    ${(item.reviews?.length || 0)} نظر
+  </span>
+</div>
+
+      </div>
+    `;
+
+    container.appendChild(card);
+  });
+
+  // Show more button logic
+if (showMoreBtn) {
+  if (!showAllOpportunities && list.length > 3) {
+    showMoreBtn.classList.remove('hidden');
+    showMoreBtn.onclick = () => {
+      showAllOpportunities = true;
+      renderOpportunities(list);
+    };
+  } else {
+    showMoreBtn.classList.add('hidden');
+  }
+}
+
+
+  lucide.createIcons();
+}
+
+function applySearch(query) {
+  const q = (query || '').trim().toLowerCase();
+  showAllOpportunities = false;
+
+
+  if (!q) {
+    filteredOpportunities = [...OPPORTUNITIES];
+  } else {
+    filteredOpportunities = OPPORTUNITIES.filter(it => {
+      const hay = [
+        it.type, it.title, it.subtitle, it.location, it.badge,
+        ...(it.tags || []), it.desc
+      ].join(' ').toLowerCase();
+      return hay.includes(q);
+    });
+  }
+  renderOpportunities(filteredOpportunities);
+}
+
+function openOpportunityDetail(id) {
+  const item = OPPORTUNITIES.find(x => x.id === id);
+  if (!item) return;
+
+  // یادمون باشه از کجا اومدیم
+  lastHomeTab = activeTab;
+
+  document.getElementById('opp-detail-title').textContent = item.title;
+  document.getElementById('opp-detail-sub').textContent = item.subtitle;
+  document.getElementById('opp-detail-img').src = item.image;
+  document.getElementById('opp-detail-img').alt = item.title;
+  document.getElementById('opp-detail-type').textContent = item.type;
+  document.getElementById('opp-detail-loc').textContent = item.location || '';
+  document.getElementById('opp-detail-badge').textContent = item.badge || '';
+  document.getElementById('opp-detail-desc').textContent = item.desc || '';
+
+  const tagsWrap = document.getElementById('opp-detail-tags');
+  tagsWrap.innerHTML = (item.tags || []).map(t => {
+    return `<span class="text-[11px] bg-gray-50 text-gray-700 px-3 py-1 rounded-xl border border-gray-100">${t}</span>`;
+  }).join('');
+
+  // Rating in detail
+const ratingEl = document.getElementById('opp-detail-rating');
+const countEl = document.getElementById('opp-detail-reviews-count');
+const reviewsWrap = document.getElementById('opp-detail-reviews');
+
+const reviewCount = item.reviews?.length || 0;
+
+if (ratingEl) ratingEl.innerHTML = renderStars(item.rating);
+if (countEl) countEl.textContent = `${reviewCount} نظر ثبت شده`;
+
+if (reviewsWrap) {
+  if (!reviewCount) {
+    reviewsWrap.innerHTML = `<div class="bg-gray-50 border border-gray-100 rounded-2xl p-4 text-sm text-gray-500">هنوز نظری ثبت نشده.</div>`;
+  } else {
+    reviewsWrap.innerHTML = item.reviews.map(r => `
+      <div class="bg-gray-50 border border-gray-100 rounded-2xl p-4">
+        <div class="flex items-center justify-between mb-2">
+          <span class="text-sm font-bold text-gray-700">${r.name}</span>
+          <span class="text-[11px] text-gray-400">${r.date}</span>
+        </div>
+        <p class="text-sm text-gray-600 leading-relaxed text-justify">${r.text}</p>
+      </div>
+    `).join('');
+  }
+}
+
+
+  // رفتن به صفحه جزئیات
+  switchTab('opportunity');
+}
+
+function closeOpportunityDetail() {
+  // برگرد به تب قبلی (معمولاً home)
+  switchTab(lastHomeTab || 'home');
+}
+
+function renderDestinationSuggestions(items) {
+  const box = document.getElementById('routes-destination-suggestions');
+  if (!box) return;
+
+  if (!items.length) {
+    box.innerHTML = `<div class="p-4 text-sm text-gray-500">نتیجه‌ای پیدا نشد</div>`;
+    box.classList.remove('hidden');
+    return;
+  }
+
+  box.innerHTML = items.map(d => `
+    <button class="w-full text-right px-4 py-3 hover:bg-gray-50 transition flex items-center justify-between"
+            onclick="selectDestination('${d.id}')">
+      <span class="font-bold text-sm text-gray-700">${d.name}</span>
+      <span class="text-xs text-gray-400">${d.area}</span>
+    </button>
+  `).join('');
+
+  box.classList.remove('hidden');
+}
+
+function selectDestination(destId) {
+  selectedDestinationId = destId;
+
+  // close suggestions
+  const box = document.getElementById('routes-destination-suggestions');
+  if (box) box.classList.add('hidden');
+
+  const input = document.getElementById('routes-destination-search');
+  const dest = getSelectedDestination();
+  if (input) input.value = dest.name;
+
+  renderRoutes();
+}
+
+
+
   </script>
 </body>
 </html>
